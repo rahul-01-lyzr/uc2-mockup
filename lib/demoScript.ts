@@ -3,8 +3,7 @@ import { t } from './i18n';
 
 /**
  * The 5-step broker demo script. Each step maps a canned broker query to
- * one assistantService call and carries the per-step surface verdict shown
- * by the dev-only EvalOverlay.
+ * one assistantService call.
  *
  * Service mapping:
  *   Q01 → getRetirementProducts()
@@ -19,30 +18,18 @@ export const DEMO_STEPS: DemoStep[] = [
     id: 'Q01',
     title: t('แบบประกันเพื่อการเกษียณ', 'Retirement products'),
     brokerQuery: t('มีประกันเพื่อการเกษียณอะไรบ้าง', 'What retirement products do we have?'),
-    verdict: 'either',
-    verdictLabel: 'Either',
-    rationale:
-      'A short list of 3 products works on both surfaces — a Flex carousel is fast in chat, and a card list is equally clear in LIFF.',
     keywords: ['เกษียณ', 'มีประกัน', 'retirement', 'products'],
   },
   {
     id: 'Q02',
     title: t('ขอ Factsheet', 'Product factsheet'),
     brokerQuery: t('ขอ factsheet ของ TIP Pension 85', 'Factsheet for TIP Pension 85, please'),
-    verdict: 'either',
-    verdictLabel: 'Either / slight Chat',
-    rationale:
-      'A single document card with an open link is quick in chat; the LIFF embedded viewer is nicer to read but the extra hop rarely pays off for one document.',
     keywords: ['factsheet', 'แฟคชีท', 'ข้อมูลแบบประกัน'],
   },
   {
     id: 'Q03',
     title: t('เปรียบเทียบคู่แข่ง', 'Competitor comparison'),
     brokerQuery: t('เทียบกับคู่แข่งของ TIP Pension 85', 'Compare TIP Pension 85 with the competitor'),
-    verdict: 'liff',
-    verdictLabel: 'LIFF wins',
-    rationale:
-      'A 6-dimension side-by-side needs aligned columns. A Flex Message carousel cannot keep rows level across bubbles — an HTML table in LIFF can.',
     keywords: ['เทียบ', 'เปรียบเทียบ', 'คู่แข่ง', 'compare', 'competitor', ' vs '],
   },
   {
@@ -52,10 +39,6 @@ export const DEMO_STEPS: DemoStep[] = [
       'แนะนำแบบประกันสำหรับ อายุ 34, เงินเดือน 40,000, เป็นหัวหน้าครอบครัว',
       'Recommend a plan for age 34, salary 40,000, head of household',
     ),
-    verdict: 'liff',
-    verdictLabel: 'LIFF wins',
-    rationale:
-      'Structured input costs 3+ chat turns (age → salary → household role) versus one LIFF form, and the structured recommendation card renders far better than a cramped bubble.',
     keywords: ['แนะนำ', 'หัวหน้าครอบครัว', 'recommend', 'fna', 'head of household'],
   },
   {
@@ -65,10 +48,6 @@ export const DEMO_STEPS: DemoStep[] = [
       'ขอหนังสือรับรองเบี้ยเพื่อลดหย่อนภาษี',
       'How does my customer request the premium certificate for tax deduction?',
     ),
-    verdict: 'chat',
-    verdictLabel: 'Chat wins',
-    rationale:
-      'One short KB answer — a conversational bubble is sufficient. Launching a full web view for a single paragraph is overkill.',
     keywords: ['ลดหย่อน', 'หนังสือรับรอง', 'ภาษี', 'tax', 'certificate', 'deduction'],
   },
 ];

@@ -32,9 +32,6 @@ export interface L10n {
 
 export type StepId = 'Q01' | 'Q02' | 'Q03' | 'Q04' | 'Q05';
 
-/** Which surface renders a given step best (demo evaluation verdict). */
-export type Verdict = 'chat' | 'liff' | 'either';
-
 export interface Product {
   id: string;
   /** SAMPLE name — swap for real TIPlife on-shelf product names. */
@@ -130,9 +127,6 @@ export interface DemoStep {
   id: StepId;
   title: L10n;
   brokerQuery: L10n;
-  verdict: Verdict;
-  verdictLabel: string;
-  rationale: string;
   /** Lowercase substrings (Thai + English) matched by the demo text router. */
   keywords: string[];
 }

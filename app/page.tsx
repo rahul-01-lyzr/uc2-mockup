@@ -22,7 +22,6 @@ import {
 import { DEMO_STEP_MAP, nextSuggestions, routeQuery } from '@/lib/demoScript';
 import { CONVERSATION, t } from '@/lib/i18n';
 import { DEFAULT_PRODUCT_ID, FACTSHEET_DISCLAIMER, FNA_DEMO_DEFAULTS, PRODUCTS } from '@/lib/mockData';
-import EvalOverlay from '@/components/shared/EvalOverlay';
 import ConfigModal from '@/components/shared/ConfigModal';
 import DeviceFrame from '@/components/shared/DeviceFrame';
 import ChatSurface from '@/components/chat/ChatSurface';
@@ -166,8 +165,6 @@ export default function Home() {
   const [fnaPromptedField, setFnaPromptedField] = useState<FnaField | null>(null);
   const [loading, setLoading] = useState(false);
   const [configOpen, setConfigOpen] = useState(false);
-  const [evalEnabled, setEvalEnabled] = useState(false);
-  const [evalDismissed, setEvalDismissed] = useState(false);
 
   const messageId = useRef(0);
 
@@ -280,7 +277,6 @@ export default function Home() {
       text: options?.viaText ? t(options.viaText, options.viaText) : brokerQueryFor(stepId, productId),
     });
     setCurrentStep(stepId);
-    setEvalDismissed(false);
 
     if (stepId === 'Q04') {
       // Restart the FNA journey: chat collects turn by turn, LIFF shows the form.
@@ -346,7 +342,6 @@ export default function Home() {
     setFnaInput(EMPTY_FNA);
     setFnaPromptedField(null);
     setLoading(false);
-    setEvalDismissed(false);
   };
 
   /* ---- quick replies: latest message's chips, else flow suggestions ---- */
@@ -360,7 +355,6 @@ export default function Home() {
           ? []
           : nextSuggestions(currentStep);
 
-  const evalStep = currentStep ? DEMO_STEP_MAP[currentStep] : null;
   const isFullscreen = screen === 'fullscreen';
 
   const gearButton = (
@@ -393,12 +387,6 @@ export default function Home() {
           </div>
           {gearButton}
         </header>
-      )}
-
-      {!isFullscreen && evalEnabled && !evalDismissed && (
-        <div className="px-6 pb-1 pt-2">
-          <EvalOverlay step={evalStep} onDismiss={() => setEvalDismissed(true)} />
-        </div>
       )}
 
       {/* Device frame */}
@@ -444,30 +432,13 @@ export default function Home() {
       {!isFullscreen && (
         <footer className="flex flex-wrap items-center justify-between gap-2 px-6 pb-4 sm:px-10">
           <p className="text-[10px] text-slate-400">Sample data — pending TIPlife on-shelf products.</p>
-          {/* Dev controls */}
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={() => {
-                setEvalEnabled((on) => !on);
-                setEvalDismissed(false);
-              }}
-              className={`rounded-full border px-3 py-1 text-[10px] font-semibold transition-colors ${
-                evalEnabled
-                  ? 'border-slate-700 bg-slate-800 text-white'
-                  : 'border-slate-300 bg-white text-slate-500 hover:border-slate-400'
-              }`}
-            >
-              Eval overlay: {evalEnabled ? 'on' : 'off'}
-            </button>
-            <button
-              type="button"
-              onClick={resetDemo}
-              className="rounded-full border border-slate-300 bg-white px-3 py-1 text-[10px] font-semibold text-slate-500 hover:border-slate-400"
-            >
-              Reset demo
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={resetDemo}
+            className="rounded-full border border-slate-300 bg-white px-3 py-1 text-[10px] font-semibold text-slate-500 hover:border-slate-400"
+          >
+            Reset demo
+          </button>
         </footer>
       )}
 
