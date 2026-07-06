@@ -90,14 +90,7 @@ const CAPABILITY_SECTIONS: { title: string; notes: string[] }[] = [
       'SDK: liff.getProfile / sendMessages (post back into the chat) / closeWindow (return to chat).',
       'Free to re-render anytime — language switch, live updates, unlimited suggestions.',
     ],
-  },
-  {
-    title: 'Shared / demo-only',
-    notes: [
-      'One backend session per LINE userId keeps both surfaces in sync.',
-      'Demo conveniences: instant surface switch, language re-rendering past chat, reset clearing history — in production these affect new messages and session context only.',
-    ],
-  },
+  }
 ];
 
 /** Demo settings: device frame, content language, and render surface. */
