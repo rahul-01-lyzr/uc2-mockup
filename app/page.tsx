@@ -192,14 +192,12 @@ export default function Home() {
     const previousSurface = readConfig().surface;
     writeConfig(patch);
     // Flipping back to chat mid-FNA: resume the multi-turn where the form left off.
+    // Switching from LIFF (form) back to a chat surface (oa/text) mid-FNA:
+    // resume the turn-by-turn collection where the form left off.
     const next = patch.surface;
-    if (
-      next === 'oa' &&
-      previousSurface !== 'oa' &&
-      currentStep === 'Q04' &&
-      !responses.Q04 &&
-      !loading
-    ) {
+    const toChat = next === 'oa' || next === 'text';
+    const fromChat = previousSurface === 'oa' || previousSurface === 'text';
+    if (toChat && !fromChat && currentStep === 'Q04' && !responses.Q04 && !loading) {
       const missing = nextFnaField(fnaInput);
       if (missing && fnaPromptedField !== missing) askFnaQuestion(missing);
     }
@@ -287,7 +285,7 @@ export default function Home() {
         delete rest.Q04;
         return rest;
       });
-      if (readConfig().surface === 'oa') askFnaQuestion('age');
+      if (readConfig().surface !== 'liff') askFnaQuestion('age');
       return;
     }
 
@@ -309,8 +307,8 @@ export default function Home() {
   };
 
   const handleSendText = (text: string) => {
-    // Mid-FNA in chat: typed answers fill the pending slot.
-    if (readConfig().surface === 'oa' && currentStep === 'Q04' && !responses.Q04) {
+    // Mid-FNA in chat (oa or plain text): typed answers fill the pending slot.
+    if (readConfig().surface !== 'liff' && currentStep === 'Q04' && !responses.Q04) {
       const missing = nextFnaField(fnaInput);
       if (missing) {
         const patch = parseFnaAnswer(missing, text);
@@ -381,7 +379,8 @@ export default function Home() {
           <div>
             <h1 className="text-base font-bold text-slate-800">TIPlife AI Sales Assistant</h1>
             <p className="text-[11px] text-slate-500">
-              {surface === 'oa' ? 'LINE OA' : 'LINE LIFF'} · {screen === 'mobile' ? 'Mobile' : 'Desktop'} ·{' '}
+              {surface === 'liff' ? 'LINE LIFF' : surface === 'text' ? 'LINE OA · Plain text' : 'LINE OA'} ·{' '}
+              {screen === 'mobile' ? 'Mobile' : screen === 'desktop' ? 'Desktop' : 'Full screen'} ·{' '}
               {lang === 'th' ? 'ไทย' : 'English'}
             </p>
           </div>
@@ -396,13 +395,14 @@ export default function Home() {
         }
       >
         <DeviceFrame screen={screen} surface={surface}>
-          {surface === 'oa' ? (
+          {surface !== 'liff' ? (
             <ChatSurface
               lang={lang}
               conversation={conversation}
               loading={loading}
               suggestions={suggestions}
-              showMobileOnlyControls={screen === 'mobile'}
+              showMobileOnlyControls={surface === 'oa' && screen === 'mobile'}
+              plainText={surface === 'text'}
               onAction={handleChipAction}
               onSendText={handleSendText}
               onOpenLiff={() => changeConfig({ surface: 'liff' })}

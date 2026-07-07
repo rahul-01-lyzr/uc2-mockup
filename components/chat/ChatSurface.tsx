@@ -16,6 +16,7 @@ import FlexCarousel from './FlexCarousel';
 import QuickReplies from './QuickReplies';
 import RichMenu from './RichMenu';
 import ChatInputBar from './ChatInputBar';
+import PlainResponseView, { PlainMenuView } from './PlainResponseView';
 
 interface ChatSurfaceProps {
   lang: Lang;
@@ -25,6 +26,8 @@ interface ChatSurfaceProps {
   suggestions: QuickReply[];
   /** Quick replies and rich menus display on LINE for iOS/Android only — not LINE for PC. */
   showMobileOnlyControls: boolean;
+  /** Plain-text OA surface: render replies as text only, no Flex cards/buttons. */
+  plainText?: boolean;
   onAction: (action: ChipAction) => void;
   onSendText: (text: string) => void;
   /** Simulates tapping a LIFF URI action inside chat — flips to the web-view surface. */
@@ -328,6 +331,7 @@ export default function ChatSurface({
   loading,
   suggestions,
   showMobileOnlyControls,
+  plainText = false,
   onAction,
   onSendText,
   onOpenLiff,
@@ -365,6 +369,10 @@ export default function ChatSurface({
             );
           }
           if (message.kind === 'menu') {
+            // Plain-text surface: list options as text (no buttons).
+            if (plainText) {
+              return <PlainMenuView key={message.id} text={message.text} items={message.items} lang={lang} />;
+            }
             // Flex bubble: body text + button footer — works on mobile and LINE for PC.
             return (
               <MessageBubble key={message.id} role="assistant" lang={lang} variant="flex">
@@ -386,7 +394,9 @@ export default function ChatSurface({
               </MessageBubble>
             );
           }
-          return (
+          return plainText ? (
+            <PlainResponseView key={message.id} response={message.response} lang={lang} onOpenLiff={onOpenLiff} />
+          ) : (
             <ResponseView
               key={message.id}
               response={message.response}

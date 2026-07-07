@@ -26,6 +26,15 @@ export const UI = {
   channelLabel: t('ช่องทาง', 'Channels'),
   processingLabel: t('ระยะเวลาดำเนินการ', 'Processing time'),
 
+  /* plain-text surface */
+  plainMenuHint: t('พิมพ์คำถาม เช่น:', 'Type a query, e.g.:'),
+  plainSampleTag: t('(ตัวอย่าง)', '(sample)'),
+  factsheetEntryAge: t('อายุรับประกัน', 'Entry age'),
+  factsheetPremiumTerm: t('ระยะเวลาชำระเบี้ย', 'Premium term'),
+  factsheetCoverage: t('ความคุ้มครอง', 'Coverage'),
+  factsheetGuaranteedBenefit: t('ผลประโยชน์การันตี', 'Guaranteed benefit'),
+  factsheetTaxDeduction: t('สิทธิลดหย่อนภาษี', 'Tax deduction'),
+
   /* liff */
   liffLoading: t('กำลังเรียกข้อมูล…', 'Loading…'),
   productsHeading: t('แบบประกันเพื่อการเกษียณ', 'Retirement products'),

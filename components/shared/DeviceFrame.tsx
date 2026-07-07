@@ -137,9 +137,11 @@ function DesktopLiffFrame({ full, children }: { full: boolean; children: ReactNo
  * Fullscreen = the desktop window filling the viewport for presentations.
  */
 export default function DeviceFrame({ screen, surface, children }: DeviceFrameProps) {
+  // Plain text is still LINE OA — it uses the OA chrome, not the LIFF window.
+  const frameSurface = surface === 'liff' ? 'liff' : 'oa';
   if (screen === 'desktop' || screen === 'fullscreen') {
     const full = screen === 'fullscreen';
-    return surface === 'oa' ? (
+    return frameSurface === 'oa' ? (
       <DesktopOaFrame full={full}>{children}</DesktopOaFrame>
     ) : (
       <DesktopLiffFrame full={full}>{children}</DesktopLiffFrame>
@@ -147,7 +149,7 @@ export default function DeviceFrame({ screen, surface, children }: DeviceFramePr
   }
   return (
     <div className="flex h-[720px] w-[380px] shrink-0 flex-col overflow-hidden rounded-[2.6rem] border-[10px] border-slate-900 bg-white shadow-2xl">
-      <LineHeader surface={surface} />
+      <LineHeader surface={frameSurface} />
       {children}
     </div>
   );

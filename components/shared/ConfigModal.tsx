@@ -66,8 +66,9 @@ const LANG_OPTIONS: OptionDef<Lang>[] = [
 ];
 
 const SURFACE_OPTIONS: OptionDef<Surface>[] = [
-  { value: 'oa', label: 'LINE OA', hint: 'Chat' },
+  { value: 'oa', label: 'LINE OA', hint: 'Rich chat' },
   { value: 'liff', label: 'LINE LIFF', hint: 'Web view' },
+  { value: 'text', label: 'Plain text', hint: 'OA, text only' },
 ];
 
 /** What each surface can really do in production, per LINE docs. */
@@ -79,6 +80,7 @@ const CAPABILITY_SECTIONS: { title: string; notes: string[] }[] = [
       'Quick replies: max 13 per message, labels ≤ 20 chars — mobile only, disappear after one tap.',
       'Rich menu (custom image, up to 20 tap areas, per-user assignable) — mobile only.',
       'Typed text via webhook + NLU, loading animation while responding.',
+      'Plain-text mode: the bot replies with text messages only (no Flex) — least build effort; structured data like comparisons is harder to scan.',
       'Sent messages are immutable — no re-rendering or deleting chat history.',
     ],
   },

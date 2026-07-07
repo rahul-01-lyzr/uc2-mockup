@@ -11,7 +11,13 @@
  *  - shared state→ backend session keyed by LINE userId (webhook + LIFF ID token)
  */
 
-export type Surface = 'oa' | 'liff';
+/**
+ * Render surface of the one LINE channel:
+ *  - 'oa'   → OA chat with rich Flex content (carousels, buttons, quick replies)
+ *  - 'liff' → LIFF web view
+ *  - 'text' → OA chat, plain text only (no Flex) — the least-effort formatting option
+ */
+export type Surface = 'oa' | 'liff' | 'text';
 
 export type Lang = 'th' | 'en';
 
